@@ -1,17 +1,26 @@
 #pragma once
-
+#include "IoHandlerBAse.h"
 #include <string>
+#include <fstream>
+
+
 class FileIoHandler
+	: IoHandlerBase
 {
 public:
 	FileIoHandler();
-	FileIoHandler(std::string iFilePath, std::string oFilePath);
 	~FileIoHandler();
 
-	std::string readFromFile();
-	void writeToFile(std::string iText);
+	std::string getInputText();
+	void writeOutputText(const std::string & iText);
+	char** vigenereTableReader();
+
+
 private:
-	std::string mInFile;
-	std::string mOutFile;
+	std::ifstream mIfstream;
+	std::ofstream mOfstream;
+	std::string mInFilePath;
+	std::string mOutFilePath;
+	std::string mCodeTablePath;
 };
 
