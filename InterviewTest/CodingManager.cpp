@@ -47,22 +47,12 @@ std::string CodingManager::codeText()
 	mCodedText.resize(mTextToCode.length());
 	unsigned int wCharText, wCharKeyword;
 
-	for (int i = 0; i < 26; ++i)
-	{
-		for (int j = 0; j < 26; ++j)
-		{
-			std::cout << mCodeTable[i][j];
-		}
-		std::cout << std::endl;
-	}
-
 	for (int i = 0; i < mTextToCode.length(); ++i)
 	{
 		wCharText = mTextToCode[i];
 			wCharKeyword = mExtendedKeyword[i];
 			int t = mTextToCode[i];
 			int c = mExtendedKeyword[i];
-			std::cout << std::endl<<wCharText << " || " << wCharKeyword <<" VS "<<t<<" || "<<c <<std::endl;
 			mCodedText[i] = mCodeTable[wCharText - UNICODE_SHIFT_VAL][wCharKeyword - UNICODE_SHIFT_VAL];
 	}
 

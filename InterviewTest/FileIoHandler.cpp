@@ -30,14 +30,10 @@ FileIoHandler::~FileIoHandler()
 
 std::string FileIoHandler::getInputText()
 {
-	std::string lineToCode("ASDF");
-#ifdef DEVELOPMENT_PROCESS
+	std::string lineToCode;
 	if (!mIfstream.is_open()) mIfstream.open(mInFilePath);
-	
 	getline(mIfstream, lineToCode);
 	mIfstream.close();
-	return lineToCode;
-#endif
 	return lineToCode;
 }
 
