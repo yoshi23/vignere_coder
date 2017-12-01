@@ -40,7 +40,7 @@ std::string UserIoHandler::getKeyWord()
 
 	while (retString.length() < 1 || retString.length() > 5 ||!onlyChars)
 	{
-		std::cout << "Keyword has to be non-empty and no longer than 4 chars,\nand it may only contain English characters.\nPlease provide a new one:\n";
+		std::cout << "Keyword has to be non-empty and no longer than 5 characters,\nand it may only contain English characters.\nPlease provide a new one:\n";
 		std::cin >> retString;
 		onlyChars = keywordToUpperAndValidity(retString);
 	}

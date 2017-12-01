@@ -2,10 +2,10 @@
 #include "IoHandlerBAse.h"
 #include <string>
 #include <fstream>
-
+#include "config.h"
 
 class FileIoHandler
-	: IoHandlerBase
+		: IoHandlerBase
 {
 public:
 	FileIoHandler();
@@ -13,12 +13,10 @@ public:
 
 	std::wstring getInputText();
 	void writeOutputText(const std::string & iText, const std::string & optText = "");
+	
 	char** vigenereTableReader();
-
-
+	
 private:
-	std::wifstream mIfstream;
-	std::ofstream mOfstream;
 	std::string mInFilePath;
 	std::string mOutFilePath;
 	std::string mCodeTablePath;

@@ -1,37 +1,28 @@
 #include "stdafx.h"
-
-#include "config.h"
-
 #include "FileIoHandler.h"
+
 #include <iostream>
 
 
 FileIoHandler::FileIoHandler() :
- mInFilePath("input.txt"),
- mOutFilePath("kodolt.dat"),
- mCodeTablePath("vtabla_c++.dat")
+ mInFilePath(INPUT_FILE), //paths are defined in config.h
+ mOutFilePath(OUTPUT_FILE),
+ mCodeTablePath(VIGNERETABLE_FILE)
 {
-#ifdef DEVELOPMENT_PROCESS
-	mIfstream.open("input.txt");
-#endif // DEVELOPMENT_PROCESS
-
-	mOfstream.open("kodolt.dat");
 }
 
 FileIoHandler::~FileIoHandler()
 {
-#ifdef DEVELOPMENT_PROCESS
-	if(mIfstream.is_open()) mIfstream.close();
-#endif // DEVELOPMENT_PROCESS
-
-	if(mOfstream.is_open())mOfstream.close();
-
 }
 
+//This method was used during development, to make
+//testing faster.
 std::wstring FileIoHandler::getInputText()
 {
+	std::wifstream mIfstream(mInFilePath);
+	if (!mIfstream.is_open()) std::cout << "Warning: problems with opening input file.\n";
+
 	std::wstring lineToCode;
-	if (!mIfstream.is_open()) mIfstream.open(mInFilePath);
 	getline(mIfstream, lineToCode);
 	mIfstream.close();
 	return lineToCode;
@@ -39,14 +30,8 @@ std::wstring FileIoHandler::getInputText()
 
 void FileIoHandler::writeOutputText(const std::string & iText, const std::string & optText)
 {
-	if (!mOfstream.is_open()) mOfstream.open(mOutFilePath);
-
-
-
-
-	
-
-
+	std::ofstream mOfstream(mOutFilePath);
+	if (!mOfstream.is_open()) std::cout << "Warning: problems with opening output file.\n";
 
 	for (int i = 0; i < iText.size(); ++i) //we exploit that fact that we have single line texts as input
 	{
@@ -57,17 +42,23 @@ void FileIoHandler::writeOutputText(const std::string & iText, const std::string
 
 char** FileIoHandler::vigenereTableReader()
 {
+	//The matrix is symmetric, but we read in the complete matrix.
+	//Thus, we are wasting a little memory space here.
+	//But this way, asking for values form the Vigenere table is more comfortable,
+	//than in the case if we only create a lower / upper triangle matrix to save memory.
 	std::ifstream  wCodeTableFile(mCodeTablePath);
+
 	char** wCodeMatrix;
-		wCodeMatrix = new char*[ALPHABET_SIZE];
+	wCodeMatrix = new char*[ALPHABET_SIZE];
+
 	for (int i = 0; i < ALPHABET_SIZE; ++i)
 	{
 		wCodeMatrix[i] = new char[ALPHABET_SIZE]; 
-		//The matrix is symmetric so it might be useful to store only upper/lowertriangle. 
-		//TODO: consider if making sure that i<j indexing is fast enough or easier to store the whole matrix.
 	}
+
 	std::string line;
 	int i = 0;
+
 	while (getline(wCodeTableFile, line))
 	{
 		for (int j = 0; j < line.size(); ++j)
@@ -77,7 +68,7 @@ char** FileIoHandler::vigenereTableReader()
 		++i;
 	}
 
-	if (i < ALPHABET_SIZE-1) std::cout << "The provided code table was not full.\nLess letters than in set alphabet\n";
+	if (i < ALPHABET_SIZE-1) std::cout << "The provided code table was not full.\nLess letters than expected in set alphabet\n";
 
 	return wCodeMatrix;
 }
