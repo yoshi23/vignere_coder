@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "UserIoHandler.h"
+
 class CodingManager
 {
 public:
@@ -11,8 +11,6 @@ public:
 	std::string getExtendedKeyword();
 
 	std::string codeText();
-
-
 
 private:
 	std::string mTextToCode;

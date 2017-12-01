@@ -6,6 +6,10 @@ CodingManager::CodingManager()
 {
 }
 
+CodingManager::~CodingManager()
+{
+}
+
 CodingManager::CodingManager(std::string iTextToCode, std::string iKeyword, char ** iCodeTable) :
 	mTextToCode(iTextToCode),
 	mKeyword(iKeyword),
@@ -25,25 +29,18 @@ CodingManager::CodingManager(std::string iTextToCode, std::string iKeyword, char
 }
 
 
-CodingManager::~CodingManager()
-{
-}
-
 std::string CodingManager::getExtendedKeyword()
 {
 	return mExtendedKeyword;
 }
 
 
-
 std::string CodingManager::codeText()
-{
-	/*
-				unsigned char ch = mTextToProcess[i];
-			if (ch >= 192) {
-				retString.push_back(mUnicodeShifter[ch - 192]);
-			}
-			*/
+{//English capital letters follow each other consecutively in the used
+	//character encoding, so we just have shift the character codes down
+	//so that they start from 0, because in the Vignere table
+	//they also nicely follow each other, A being at 0.
+	//We just lookup the corresponding indices of the matrix and we have the coding.
 	mCodedText.resize(mTextToCode.length());
 	unsigned int wCharText, wCharKeyword;
 
@@ -53,10 +50,8 @@ std::string CodingManager::codeText()
 			wCharKeyword = mExtendedKeyword[i];
 			int t = mTextToCode[i];
 			int c = mExtendedKeyword[i];
-			mCodedText[i] = mCodeTable[wCharText - UNICODE_SHIFT_VAL][wCharKeyword - UNICODE_SHIFT_VAL];
+			mCodedText[i] = mCodeTable[wCharText - ANSI_TO_VIGNERE_SHIFT][wCharKeyword - ANSI_TO_VIGNERE_SHIFT];
 	}
-
-
 	return mCodedText;
 }
 

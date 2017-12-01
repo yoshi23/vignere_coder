@@ -1,25 +1,19 @@
 ﻿#include "stdafx.h"
 #include "TextProcessor.h"
+#include "config.h"
 
-TextProcessor::TextProcessor()
-{
-	//   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
-	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
-						//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
-	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_s__________urr";
-
-}
-
-TextProcessor::TextProcessor(std::wstring iString) :
+TextProcessor::TextProcessor(const std::wstring & iString) :
 	mTextToProcess(iString),
 	mCleanText("")
 {
-				 //   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
-	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
-	
 	//Windows 10 console default character encoding (OEM - LATIN II) can be found here: https://en.wikipedia.org/wiki/Code_page_852
-	//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
-	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_s__________urr";
+	//We use this array to look up the special characters by their code and search the corresponding english non-accented character.
+	//This works for the default Windows 10 console setting, with code page 852.
+	//For more platform independent unicode shifting, use this array and check for an 
+	//accented letter threshold of 192: https://stackoverflow.com/questions/14094621/change-all-accented-letters-to-normal-letters-in-c
+							
+							//"ÇüéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
+	mWindowsEncodingShifter = "cueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_s__________urr";
 }
 
 TextProcessor::~TextProcessor()
@@ -30,12 +24,11 @@ TextProcessor::~TextProcessor()
 std::string TextProcessor::removeSpecChar()
 {
 	std::string retString;
-	//This code snipet was inspired by the solution found here: https://stackoverflow.com/questions/14094621/change-all-accented-letters-to-normal-letters-in-c
 	for (int i = 0; i < mTextToProcess.length(); ++i)
 	{
 			unsigned char ch = mTextToProcess[i];
-			if (ch >= 128) {
-				retString.push_back(mWindowsEncoding852[ch-129]);// mUnicodeShifter[ch - 192]);
+			if (ch >= ACCENTED_LETTER_THRESHOLD) {
+				retString.push_back(mWindowsEncodingShifter[ch- ACCENTED_LETTER_THRESHOLD]); // mUnicodeShifter[ch - 192]);
 			}
 			else
 			{

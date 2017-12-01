@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
 
-//Common base class for handling inpute and output from user / file.
+//Common base class for handling input 
+//and output from user / file.
 class IoHandlerBase
 {
 public:
