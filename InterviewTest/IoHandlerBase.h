@@ -9,7 +9,7 @@ public:
 	~IoHandlerBase();
 
 	virtual std::wstring getInputText() = 0;
-	virtual void writeOutputText(const std::string & iText) = 0;
+	virtual void writeOutputText(const std::string & iText, const std::string & optText = "") = 0;
 
 };
 

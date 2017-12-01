@@ -37,7 +37,7 @@ std::wstring FileIoHandler::getInputText()
 	return lineToCode;
 }
 
-void FileIoHandler::writeOutputText(const std::string & iText)
+void FileIoHandler::writeOutputText(const std::string & iText, const std::string & optText)
 {
 	if (!mOfstream.is_open()) mOfstream.open(mOutFilePath);
 

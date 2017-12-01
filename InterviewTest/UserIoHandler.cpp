@@ -15,7 +15,7 @@ UserIoHandler::~UserIoHandler()
 std::wstring UserIoHandler::getInputText()
 {
 	std::wstring retString;
-	std::cout << "Please type in the text to code:\n";
+	std::cout << "Please type in the text to code!\nInput: ";
 	getline(std::wcin, retString);
 	return retString;
 }
@@ -34,7 +34,7 @@ bool keywordToUpperAndValidity(std::string & iString)
 std::string UserIoHandler::getKeyWord()
 {
 	std::string retString;
-	std::cout << "What keyword would you like to use for coding?\n";
+	std::cout << "\nWhat keyword would you like to use for coding?\nInput: ";
 	std::cin >> retString;
 	bool onlyChars = keywordToUpperAndValidity(retString);
 
@@ -48,7 +48,7 @@ std::string UserIoHandler::getKeyWord()
 }
 
 
-void UserIoHandler::writeOutputText(const std::string & iText)
+void UserIoHandler::writeOutputText(const std::string & iText, const std::string & optText)
 {
-	std::cout << iText <<std::endl;
+	std::cout << "\n" << optText << iText << "\n";
 }

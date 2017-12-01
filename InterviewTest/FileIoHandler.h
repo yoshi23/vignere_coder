@@ -12,7 +12,7 @@ public:
 	~FileIoHandler();
 
 	std::wstring getInputText();
-	void writeOutputText(const std::string & iText);
+	void writeOutputText(const std::string & iText, const std::string & optText = "");
 	char** vigenereTableReader();
 
 

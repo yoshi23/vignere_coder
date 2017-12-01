@@ -14,7 +14,7 @@ public:
 
     std::wstring getInputText();
 	std::string getKeyWord();
-	void writeOutputText(const std::string & iText);
+	void writeOutputText(const std::string & iText, const std::string & optText = "");
 
 };
 
