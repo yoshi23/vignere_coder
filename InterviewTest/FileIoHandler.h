@@ -11,13 +11,13 @@ public:
 	FileIoHandler();
 	~FileIoHandler();
 
-	std::string getInputText();
+	std::wstring getInputText();
 	void writeOutputText(const std::string & iText);
 	char** vigenereTableReader();
 
 
 private:
-	std::ifstream mIfstream;
+	std::wifstream mIfstream;
 	std::ofstream mOfstream;
 	std::string mInFilePath;
 	std::string mOutFilePath;

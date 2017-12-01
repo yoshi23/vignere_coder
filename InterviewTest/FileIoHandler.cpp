@@ -28,9 +28,9 @@ FileIoHandler::~FileIoHandler()
 
 }
 
-std::string FileIoHandler::getInputText()
+std::wstring FileIoHandler::getInputText()
 {
-	std::string lineToCode;
+	std::wstring lineToCode;
 	if (!mIfstream.is_open()) mIfstream.open(mInFilePath);
 	getline(mIfstream, lineToCode);
 	mIfstream.close();

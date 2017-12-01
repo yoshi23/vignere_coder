@@ -12,12 +12,12 @@ UserIoHandler::~UserIoHandler()
 {
 }
 
-std::string UserIoHandler::getInputText()
+std::wstring UserIoHandler::getInputText()
 {
-	std::string retString;
+	std::wstring retString;
 	std::cout << "Please type in the text to code:\n";
-	getline(std::cin, retString);
-	return std::string();
+	getline(std::wcin, retString);
+	return retString;
 }
 
 bool keywordToUpperAndValidity(std::string & iString)

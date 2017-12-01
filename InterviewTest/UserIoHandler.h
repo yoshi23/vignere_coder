@@ -12,7 +12,7 @@ public:
 	UserIoHandler();
 	~UserIoHandler();
 
-    std::string getInputText();
+    std::wstring getInputText();
 	std::string getKeyWord();
 	void writeOutputText(const std::string & iText);
 

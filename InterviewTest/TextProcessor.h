@@ -4,18 +4,19 @@ class TextProcessor
 {
 public:
 	TextProcessor();
-	TextProcessor(std::string iString);
+	TextProcessor(std::wstring iString);
 	~TextProcessor();
 
 	std::string getCleanText();
 
 private:
-	std::string removeSpecChar(std::string iText);
+	std::string removeSpecChar();
 	std::string removeSpacesAndToUpper(const std::string & iText);
 
 
-	std::string mTextToProcess;
+	std::wstring mTextToProcess;
 	std::string mCleanText;
 	const char*	mUnicodeShifter;
+	const char* mWindowsEncoding852;
 };
 

@@ -5,14 +5,19 @@ TextProcessor::TextProcessor()
 {
 	//   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
+						//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
+	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_shy__________urr";
+
 }
 
-TextProcessor::TextProcessor(std::string iString) :
+TextProcessor::TextProcessor(std::wstring iString) :
 	mTextToProcess(iString),
 	mCleanText("")
 {
 				 //   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
+	//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
+	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_shy__________urr";
 }
 
 TextProcessor::~TextProcessor()
@@ -20,16 +25,17 @@ TextProcessor::~TextProcessor()
 }
 
 
-
-std::string TextProcessor::removeSpecChar(std::string iText)
+#include <iostream>
+std::string TextProcessor::removeSpecChar()
 {
 	std::string retString;
 	//This code snipet was inspired by the solution found here: https://stackoverflow.com/questions/14094621/change-all-accented-letters-to-normal-letters-in-c
 	for (int i = 0; i < mTextToProcess.length(); ++i)
 	{
 			unsigned char ch = mTextToProcess[i];
-			if (ch >= 192) {
-				retString.push_back(mUnicodeShifter[ch - 192]);
+			std::cout << "ch: " << ch << "; mtextproc: " << mTextToProcess[i] << std::endl;
+			if (ch >= 128) {
+				retString.push_back(mWindowsEncoding852[ch-129]);// mUnicodeShifter[ch - 192]);
 			}
 			else
 			{
@@ -56,7 +62,7 @@ std::string TextProcessor::getCleanText()
 {
 	std::string wTempString;
 
-	wTempString = removeSpecChar(mTextToProcess);
+	wTempString = removeSpecChar();
 	mCleanText = removeSpacesAndToUpper(wTempString);
 
 	return mCleanText;
