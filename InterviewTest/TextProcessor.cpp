@@ -6,7 +6,7 @@ TextProcessor::TextProcessor()
 	//   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
 						//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
-	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_shy__________urr";
+	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_s__________urr";
 
 }
 
@@ -16,8 +16,10 @@ TextProcessor::TextProcessor(std::wstring iString) :
 {
 				 //   "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 	mUnicodeShifter = "AAAAAAECEEEEIIIIDNOOOOOx0UUUUYPsaaaaaaeceeeeiiiiOnooooo/0uuuuypy";
+	
+	//Windows 10 console default character encoding (OEM - LATIN II) can be found here: https://en.wikipedia.org/wiki/Code_page_852
 	//"üéâäůćçłëŐőîŹÄĆÉĹĺôöĽľŚśÖÜŤťŁ×čáíóúĄąŽžĘę¬źČş«»░▒▓│┤ÁÂĚŞ╣║╗╝Żż┐└┴┬├─┼Ăă╚╔╩╦╠═╬¤đĐĎËďŇÍÎě┘┌█▄ŢŮ▀ÓßÔŃńňŠšŔÚŕŰýÝţ´SHY˝˛ˇ˘§÷¸°¨˙űŘř";
-	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_shy__________urr";
+	mWindowsEncoding852 = "ueaauccleooizacelioollssoottlxcaiouaazzee_zcs_______aaes____zz_______aa________dddedniie____tu_obonnnssruruyyt_s__________urr";
 }
 
 TextProcessor::~TextProcessor()
@@ -25,7 +27,6 @@ TextProcessor::~TextProcessor()
 }
 
 
-#include <iostream>
 std::string TextProcessor::removeSpecChar()
 {
 	std::string retString;
@@ -33,7 +34,6 @@ std::string TextProcessor::removeSpecChar()
 	for (int i = 0; i < mTextToProcess.length(); ++i)
 	{
 			unsigned char ch = mTextToProcess[i];
-			std::cout << "ch: " << ch << "; mtextproc: " << mTextToProcess[i] << std::endl;
 			if (ch >= 128) {
 				retString.push_back(mWindowsEncoding852[ch-129]);// mUnicodeShifter[ch - 192]);
 			}
